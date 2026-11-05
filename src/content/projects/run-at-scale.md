@@ -4,7 +4,7 @@ summary: Six years as an independent consultant, five of them embedded in Google
 period: 2017–2023
 kind: consulting
 role: Founder
-tags: [consulting, gcp, terraform, kubernetes]
+tags: [consulting, gcp, terraform, kubernetes, data-pipelines, consul]
 order: 7
 ---
 
@@ -15,6 +15,12 @@ Most of the work followed one pattern: establish **Terraform foundations** (org 
 IAM, projects) and **application infrastructure** for teams in a sensible way, then hand it over. I
 ran into just about every technology along the way, but the job was rarely building applications. It
 was building the ground they stand on, so teams could own and operate it after I left.
+
+Beyond the foundations, we took on whatever tricky problems each customer had. A few examples:
+
+- Scaling Kubernetes while running on preemptible VMs.
+- Building data pipelines, and stitching them together with secondary providers like Confluent.
+- Building service discovery (e.g. Consul) for a fleet of microservices.
 
 The biggest example is the [Terraform runner on Cloud Build](/projects/terraform-runner-cloud-build/)
 I built to lay down one client’s cloud foundations at scale.
