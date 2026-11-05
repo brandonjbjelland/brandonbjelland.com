@@ -38,9 +38,9 @@ Comprehensive docs gave teams a path to onboard themselves, and agent-friendly `
 just as critical: most engineers were working alongside coding agents, and those agents needed to
 understand HERBS as well as the people did.
 
-I owned the architecture and the load-bearing decisions, and deliberately had a teammate write most of
-the initial implementation under my guidance, to grow them into an owner. It worked: teammates now
-write their own architecture decision records for HERBS and author the majority of its commits.
+I owned the architecture and the load-bearing decisions, and wrote and cleaned up most of the code
+myself. I had a strong design and implementation partner on the team throughout, and building HERBS
+together grew them into a co-owner of it.
 
 ## Outcome
 
