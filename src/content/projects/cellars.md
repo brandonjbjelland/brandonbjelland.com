@@ -17,6 +17,11 @@ build on common internal infrastructure constructs, but those constructs are und
 each team ends up building its own foundation on top of them. Before long there’s no common
 substrate, and every product is trying to achieve compliance in a different way.
 
+Networking is the sharpest example. Network design is hard to get right up front and painful to change
+once services depend on it. It isn’t realistic to expect every team to execute it flawlessly, with an
+eye toward services that will run for years. That design belongs in the platform: done once, done
+well, and inherited by everyone.
+
 ## The approach
 
 **CELLARS** stands for **C**ellular **E**nvironments **L**ayered for **L**oc**A**le **R**egulated
