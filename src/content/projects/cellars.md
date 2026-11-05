@@ -12,8 +12,10 @@ order: 2
 ## The problem
 
 Regulated and government customers need guarantees that their data and compute stay inside national
-borders. The easy trap is letting each big deal spin up its own one-off region. Do that a few times and
-you own a pile of snowflakes, each with its own compliance story.
+borders. The easy trap is letting foundations drift between products: every team is expected to
+build on common internal infrastructure constructs, but those constructs are underinvested in, so
+each team ends up building its own foundation on top of them. Before long there’s no common
+substrate, and every product is trying to achieve compliance in a different way.
 
 ## The approach
 
@@ -21,8 +23,9 @@ you own a pile of snowflakes, each with its own compliance story.
 **S**overeignty.
 
 I designed CELLARS around one primitive, the **cell**: a secure, geo-bound unit of infrastructure
-confined to a single country. Compliance controls are inherited from the platform rather than rebuilt
-per region, so a new region is mostly a matter of configuration instead of a code fork.
+confined to a single country. Every product builds on the same cell, and compliance controls are
+inherited from the platform rather than rebuilt by each team, so a new region is mostly a matter of
+configuration instead of a code fork.
 
 A few deliberate choices made it work:
 
