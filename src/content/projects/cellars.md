@@ -23,9 +23,9 @@ substrate, and every product is trying to achieve compliance in a different way.
 **S**overeignty.
 
 I designed CELLARS around one primitive, the **cell**: a secure, geo-bound unit of infrastructure
-confined to a single country. Every product builds on the same cell, and compliance controls are
-inherited from the platform rather than rebuilt by each team, so a new region is mostly a matter of
-configuration instead of a code fork.
+confined to a single country. Each team gets its own cells, one per geography and environment, but
+every cell is stamped from the same model. Compliance controls are inherited from the platform rather
+than rebuilt by each team, so a new region is mostly a matter of configuration instead of a code fork.
 
 A few deliberate choices made it work:
 
