@@ -31,9 +31,9 @@ infrastructure deploy uniformly through the same system, using primitives modele
 resource model so they feel familiar and compose predictably. Correctness and consistency are
 enforced in CI, before anything reaches a cluster.
 
-Over time I evolved HERBS beyond the team’s own cell, with input from the teams using it. Bundles can
-now target **external services**: shared services my team hosts on a platform-infrastructure cell in
-the same geography. That lets a team deploy to services that live outside its cell without giving up
+Over time we evolved HERBS beyond a team’s own cell. I led the design, and my team pressure-tested
+and approved it. Bundles can now target **external services**: shared services we host on a
+platform-infrastructure cell in the same geography. That lets a team deploy to services that live outside its cell without giving up
 data residency. Argo Workflows was the first, and the same external-service target contract is being
 adapted to Kargo.
 
