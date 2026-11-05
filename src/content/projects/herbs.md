@@ -40,9 +40,10 @@ adapted to Kargo.
 ## Winning adoption
 
 Since people were the hard part, documentation was a first-class deliverable, not an afterthought.
-Comprehensive docs gave teams a path to onboard themselves, and agent-friendly `llms.txt` files were
-just as critical: most engineers were working alongside coding agents, and those agents needed to
-understand HERBS as well as the people did.
+Comprehensive docs gave teams a path to onboard themselves, and the agent-facing material was just as
+critical: most engineers were working alongside coding agents, and those agents needed to understand
+HERBS as well as the people did. So alongside the docs we shipped `llms.txt` files, agent skills, and
+`CLAUDE.md`/`AGENTS.md` files bundled with HERBS itself.
 
 I owned the architecture and the load-bearing decisions, and wrote and cleaned up most of the code
 myself. I had a strong design and implementation partner on the team throughout, and building HERBS
