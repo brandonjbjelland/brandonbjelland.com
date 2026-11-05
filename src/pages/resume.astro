@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import { resume, formatRange } from '../data/resume';
 import { lastModified } from '../lib/lastModified';
 ---
-<Base title="Resume" description={`${resume.name}: ${resume.headline}`} markdown="/resume.md" updated={lastModified('src/data/resume.ts', 'src/pages/resume.astro')} wide>
+<Base title="Resume" description={`${resume.name}: ${resume.headline}`} markdown="/resume/index.md" updated={lastModified('src/data/resume.ts', 'src/pages/resume.astro')} wide>
   <div class="resume">
     <header class="top">
       <div>

@@ -1,37 +1,60 @@
 import type { APIRoute } from 'astro';
 import { SITE } from '../consts';
-import { abs, publishedPosts, sortedProjects, text } from '../lib/markdown';
+import { abs, mdUrl, publishedPosts, sortedProjects, text } from '../lib/markdown';
 
-// https://llmstxt.org — an index of this site's content as Markdown, for agents.
+const KIND = { internal: 'Internal (not open source)', 'open-source': 'Open source', consulting: 'Consulting' } as const;
+
+/**
+ * /llms.txt per https://llmstxt.org: H1, blockquote summary, detail paragraphs (no headings),
+ * then H2 sections of "- [name](url): notes" file lists. "Optional" holds skippable links.
+ * Conformance is checked at build time (see llmsTxtCheck in astro.config.mjs).
+ */
 export const GET: APIRoute = async () => {
   const projects = await sortedProjects();
   const posts = await publishedPosts();
-  return text(`
-# ${SITE.title}
+  const sections: string[] = [];
 
-> ${SITE.description}
+  sections.push(`# ${SITE.title}`);
+  sections.push(`> ${SITE.description}`);
+  sections.push(
+    `Personal site of ${SITE.author}, based in ${SITE.location}. Contact: ${SITE.email}.`,
+    `Every page on this site has a Markdown version at the page URL plus \`index.md\` (for example ` +
+      `${abs('/about/index.md')}), and the links below point to those. Project notes start with whether ` +
+      `the work is internal to an employer (described, not linked to code) or open source.`,
+  );
 
-Personal site of ${SITE.author}, based in ${SITE.location}. Every page below is available as plain
-Markdown. Contact: ${SITE.email}.
+  sections.push(
+    '## Core pages',
+    [
+      `- [Home](${abs('/index.md')}): Short introduction and featured work`,
+      `- [About](${abs(mdUrl('/about/'))}): Background, how I work, life outside work, and contact`,
+      `- [Resume](${abs(mdUrl('/resume/'))}): Full public resume; structured JSON at ${abs('/resume.json')}`,
+    ].join('\n'),
+  );
 
-## Core pages
+  sections.push(
+    '## Projects',
+    projects
+      .map((p) => `- [${p.data.title}](${abs(mdUrl(`/projects/${p.id}/`))}): ${KIND[p.data.kind]}. ${p.data.summary}`)
+      .join('\n'),
+  );
 
-- [About](${abs('/about.md')}): Background, how I work, and how to get in touch
-- [Resume](${abs('/resume.md')}): Full public resume (also as JSON: ${abs('/resume.json')})
+  if (posts.length) {
+    sections.push(
+      '## Blog',
+      posts.map((p) => `- [${p.data.title}](${abs(mdUrl(`/blog/${p.id}/`))}): ${p.data.description}`).join('\n'),
+    );
+  }
 
-## Projects
+  sections.push(
+    '## Optional',
+    [
+      `- [Full site content](${abs('/llms-full.txt')}): Every page above concatenated into one file`,
+      `- [Resume JSON](${abs('/resume.json')}): Machine-readable resume`,
+      `- [RSS feed](${abs('/rss.xml')})`,
+      `- [GitHub profile](${SITE.links.github})`,
+    ].join('\n'),
+  );
 
-${projects.map((p) => `- [${p.data.title}](${abs(`/projects/${p.id}.md`)}) (${p.data.kind}): ${p.data.summary}`).join('\n')}
-
-## Blog
-
-${posts.length ? posts.map((p) => `- [${p.data.title}](${abs(`/blog/${p.id}.md`)}): ${p.data.description}`).join('\n') : '- No posts yet'}
-
-## Optional
-
-- [Everything in one file](${abs('/llms-full.txt')}): All of the above concatenated
-- [RSS feed](${abs('/rss.xml')})
-- [GitHub](${SITE.links.github})
-- [LinkedIn](${SITE.links.linkedin})
-`);
+  return text(sections.join('\n\n'));
 };

@@ -2,7 +2,7 @@
 layout: ../layouts/Prose.astro
 title: About
 description: A bit about Brandon Bjelland.
-markdown: /about.md
+markdown: /about/index.md
 ---
 
 # cat about.md

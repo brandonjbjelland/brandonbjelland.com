@@ -24,6 +24,9 @@ function absolutize(md: string): string {
   return md.replace(/\]\((\/[^)\s]*)\)/g, (_, p) => `](${abs(p)})`);
 }
 
+/** Markdown twin URL for a page URL ending in '/', per llmstxt.org: append index.md. */
+export const mdUrl = (pagePath: string) => `${pagePath}index.md`;
+
 export const md = (response: string) =>
   new Response(response.trim() + '\n', { headers: { 'Content-Type': 'text/markdown; charset=utf-8' } });
 
@@ -38,6 +41,24 @@ export async function publishedPosts() {
 
 export async function sortedProjects() {
   return (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+}
+
+export async function homeMarkdown(): Promise<string> {
+  const featured = (await sortedProjects()).filter((p) => p.data.featured);
+  return [
+    `# ${SITE.author}`,
+    `> ${resume.headline}. ${SITE.location}.`,
+    `Last updated ${isoDate(lastModified('src/pages/index.astro', 'src/content'))}`,
+    ...resume.summary,
+    '## Start here',
+    [
+      `- [About](${abs(mdUrl('/about/'))})`,
+      `- [Resume](${abs(mdUrl('/resume/'))})`,
+      `- [All pages (llms.txt)](${abs('/llms.txt')})`,
+    ].join('\n'),
+    '## Featured projects',
+    featured.map((p) => `- [${p.data.title}](${abs(mdUrl(`/projects/${p.id}/`))}): ${p.data.summary}`).join('\n'),
+  ].join('\n\n');
 }
 
 export function aboutMarkdown(): string {

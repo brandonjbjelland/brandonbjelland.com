@@ -1,6 +1,6 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
 import type { CollectionEntry } from 'astro:content';
-import { md, projectMarkdown, sortedProjects } from '../../lib/markdown';
+import { md, projectMarkdown, sortedProjects } from '../../../lib/markdown';
 
 export const getStaticPaths = (async () =>
   (await sortedProjects()).map((project) => ({ params: { slug: project.id }, props: { project } }))) satisfies GetStaticPaths;

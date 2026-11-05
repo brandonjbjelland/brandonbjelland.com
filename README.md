@@ -49,9 +49,13 @@ npm run build && npm run resume:pdf
 
 Generated at build time from the same content as the HTML, so there is nothing extra to maintain:
 
-- `/llms.txt`: index of every page ([llmstxt.org](https://llmstxt.org) convention)
+- `/llms.txt`: index of every page, following the [llmstxt.org](https://llmstxt.org) spec
 - `/llms-full.txt`: all content in one file
-- `/<page>.md`: Markdown twin of each page (`/about.md`, `/resume.md`, `/projects/<slug>.md`, `/blog/<slug>.md`)
+- `<page>/index.md`: Markdown twin of each page, per the spec's rule for URLs ending in `/`
+  (`/index.md`, `/about/index.md`, `/resume/index.md`, `/projects/<slug>/index.md`, `/blog/<slug>/index.md`)
+- Every HTML page links to its twin (`rel="alternate" type="text/markdown"`) and to llms.txt (`rel="describedby"`)
+
+The build fails if `llms.txt` stops conforming to the spec or links to a page that doesn't exist.
 
 New posts and projects appear automatically. HTML comments (e.g. `<!-- TODO -->`) are stripped.
 Code lives in `src/lib/markdown.ts`.
