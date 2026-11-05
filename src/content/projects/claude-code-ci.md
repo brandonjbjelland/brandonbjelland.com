@@ -21,7 +21,7 @@ So I built reusable CI/CD components that bring Claude Code into everyday merge 
 - Changelog updates
 - Plan and blast-radius analysis for infrastructure changes
 
-They run without standing API keys and were rolled out across the group, raising the floor on both
+They were rolled out across the group, raising the floor on both
 safety and velocity for everyone rather than just for me.
 
 This is a small, concrete piece of what I want to build next: software factories, where agents and

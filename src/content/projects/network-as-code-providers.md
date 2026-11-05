@@ -17,8 +17,8 @@ on every team’s path to production, and not just in my group.
 
 ## What I built
 
-I built OpenTofu/Terraform providers that wrap the underlying provisioning APIs and give teams one consistent, declarative way to manage their own networking,
-firewall, and load balancer changes. I ran them as a first-class internal product: regular releases,
+I built OpenTofu/Terraform providers that give teams one consistent, declarative way to manage their
+own networking, firewall, and load balancer changes. I ran them as a first-class internal product: regular releases,
 bug fixes, documentation, and support for anyone who adopted them.
 
 ## Outcome

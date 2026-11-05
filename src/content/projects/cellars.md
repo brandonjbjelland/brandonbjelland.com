@@ -4,7 +4,7 @@ summary: Cellular Environments Layered for LocAle Regulated Sovereignty. A cellu
 period: 2025–2026
 kind: internal
 role: Senior Principal Architect, Palo Alto Networks
-tags: [platform, sovereignty, opentofu, terragrunt, gitlab-ci, gcp, aws]
+tags: [platform, sovereignty, opentofu, multi-cloud]
 featured: true
 order: 2
 ---
@@ -26,15 +26,10 @@ per region, so a new region is mostly a matter of configuration instead of a cod
 
 A few deliberate choices made it work:
 
-- **OpenTofu and Terragrunt, structured for many teams.** Infrastructure is layered so each team
-  owns its slice of a cell, across multiple clouds, with data residency built in. Under the hood
-  that’s more than 1,000 Terraform states, chained together and run selectively in CI so a change
-  only touches what it needs to.
-- **Declarative everything.** Product teams describe their infrastructure using the Kubernetes resource
-  model (Config Connector), and the network layer is declared through the
-  [network-as-code providers](/projects/network-as-code-providers/).
-- **Sequencing to de-risk, not to chase revenue.** The first cell was a proving ground, built to
-  validate the model fast, and expansion went first to the regions whose teams could move quickest.
+- **Infrastructure as code, structured for many teams.** Infrastructure is layered so each team owns
+  its slice of a cell, and changes only touch what they need to.
+- **Declarative everything.** Teams declare what they need, down to the network layer through the
+  [network-as-code providers](/projects/network-as-code-providers/), rather than filing tickets.
 - **Making sovereignty a platform capability.** Working with compliance, we turned ambiguous,
   non-uniform legal requirements into a reusable control set instead of a per-deal negotiation.
 
