@@ -1,5 +1,5 @@
 ---
-import { NAV } from '../consts';
+import { NAV, SITE } from '../consts';
 const path = Astro.url.pathname;
 const cwd = path === '/' ? '~' : `~${path.replace(/\/$/, '')}`;
 ---
@@ -12,6 +12,7 @@ const cwd = path === '/' ? '~' : `~${path.replace(/\/$/, '')}`;
       {NAV.map((item) => (
         <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label.toLowerCase()}/</a>
       ))}
+      <a class="ext" href={SITE.links.github} rel="me">github↗</a>
       <button id="theme-toggle" type="button" aria-label="Toggle light mode" title="Toggle light/dark">◐</button>
     </nav>
   </div>
@@ -38,6 +39,8 @@ const cwd = path === '/' ? '~' : `~${path.replace(/\/$/, '')}`;
   nav { display: flex; gap: 1.1rem; flex-wrap: wrap; align-items: center; }
   nav a { color: var(--muted); border: 0; font-size: 0.92rem; }
   nav a:hover, nav a[aria-current='page'] { color: var(--accent); }
+  nav a.ext { color: var(--faint); }
+  nav a.ext:hover { color: var(--accent); }
   button { background: none; border: 1px solid var(--border); color: var(--muted); font: inherit; border-radius: 4px; padding: 0 0.45rem; cursor: pointer; }
   button:hover { color: var(--accent); border-color: var(--accent); }
 </style>

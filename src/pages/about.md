@@ -54,4 +54,5 @@ off across the Northwest and beyond. I’m also a scuba diver, a Technician clas
 ## Get in touch
 
 The best way to reach me is [email](mailto:brandonjbjelland@gmail.com) or
-[LinkedIn](https://www.linkedin.com/in/brandonjbjelland/).
+[LinkedIn](https://www.linkedin.com/in/brandonjbjelland/). My code lives on
+[GitHub](https://github.com/brandonjbjelland).

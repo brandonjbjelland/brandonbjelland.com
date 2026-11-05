@@ -24,7 +24,8 @@ const featured = (await getCollection('projects', ({ data }) => data.featured))
     <div class="actions">
       <a class="button primary" href="/resume/">Resume</a>
       <a class="button" href="/about/">About me</a>
-      <a class="button" href={SITE.links.linkedin}>LinkedIn</a>
+      <a class="button" href={SITE.links.github} rel="me">GitHub</a>
+      <a class="button" href={SITE.links.linkedin} rel="me">LinkedIn</a>
     </div>
     <p class="cmd next"><span class="ps">$</span> <span class="cursor" aria-hidden="true"></span></p>
   </section>
