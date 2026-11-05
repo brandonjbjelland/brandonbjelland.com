@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE } from '../consts';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+const featured = (await getCollection('projects', ({ data }) => data.featured))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+---
+<Base>
+  <section class="hero">
+    <p class="cmd"><span class="ps">$</span> whoami</p>
+    <h1>Brandon Bjelland</h1>
+    <p class="role">platform &amp; agentic engineering leader · always cooking 🧑‍🍳</p>
+    <p class="lede">
+      I build software factories: platforms where agents and people share one path from idea to
+      production. Most recently I was the architect behind the platform under every Prisma AIRS product
+      at Palo Alto Networks, after it acquired Protect AI. I’m based in {SITE.location}.
+    </p>
+    <div class="actions">
+      <a class="button primary" href="/resume/">Resume</a>
+      <a class="button" href="/about/">About me</a>
+      <a class="button" href={SITE.links.linkedin}>LinkedIn</a>
+    </div>
+    <p class="cmd next"><span class="ps">$</span> <span class="cursor" aria-hidden="true"></span></p>
+  </section>
+
+  {featured.length > 0 && (
+    <section>
+      <h2><span class="ps">$</span> ls projects/ --featured</h2>
+      <ul class="post-list">
+        {featured.map((p) => (
+          <li>
+            <a class="title" href={`/projects/${p.id}/`}>{p.data.title}</a>
+            <p>{p.data.summary}</p>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/projects/">All projects →</a></p>
+    </section>
+  )}
+
+  {posts.length > 0 && (
+    <section>
+      <h2><span class="ps">$</span> ls blog/ | head -3</h2>
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li>
+            <a class="title" href={`/blog/${post.id}/`}>{post.data.title}</a>
+            <div class="faint"><FormattedDate date={post.data.pubDate} /></div>
+            <p>{post.data.description}</p>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/blog/">All posts →</a></p>
+    </section>
+  )}
+</Base>
+<style>
+  .hero { padding: 0.5rem 0 1rem; }
+  .cmd { margin: 0 0 0.5rem; color: var(--muted); }
+  .cmd.next { margin-top: 1.75rem; }
+  .ps { color: var(--accent); }
+  .role { color: var(--accent-3); margin: 0 0 1.25rem; }
+  .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+</style>

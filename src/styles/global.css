@@ -1,0 +1,122 @@
+/* Terminal theme. Dark is the default; light is opt-in via the toggle. */
+:root {
+  --bg: #0c0f12;
+  --surface: #12171c;
+  --text: #d4d9de;
+  --muted: #9aa5ae;
+  --faint: #66717a;
+  --border: #232b33;
+  --accent: #7ee787;       /* prompt green */
+  --accent-2: #79c0ff;     /* link cyan */
+  --accent-3: #e3b341;     /* amber */
+  --accent-soft: #15241a;
+  --selection: #264f78;
+  --max: 48rem;
+  --wide: 64rem;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --text: #1f2328;
+  --muted: #57606a;
+  --faint: #8c959f;
+  --border: #d8dee4;
+  --accent: #1a7f37;
+  --accent-2: #0969da;
+  --accent-3: #9a6700;
+  --accent-soft: #e6f4ea;
+  --selection: #b6d7ff;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+::selection { background: var(--selection); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15.5px/1.7 var(--font-mono);
+  font-variant-ligatures: none;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent-2); text-decoration: none; border-bottom: 1px dashed currentColor; }
+a:hover { color: var(--accent); border-bottom-style: solid; }
+img { max-width: 100%; height: auto; }
+
+h1, h2, h3 { font-weight: 700; line-height: 1.3; color: var(--text); }
+h1 { font-size: clamp(1.5rem, 4vw, 2rem); margin: 0 0 0.75rem; }
+h2 { font-size: 1.15rem; margin: 2.5rem 0 0.75rem; }
+h3 { font-size: 1rem; margin: 1.75rem 0 0.5rem; }
+/* Markdown-style heading markers */
+.prose h2::before, .md h2::before { content: '## '; color: var(--faint); }
+.prose h3::before, .md h3::before { content: '### '; color: var(--faint); }
+h1.prompt::before { content: '$ '; color: var(--accent); }
+
+code { font-family: var(--font-mono); font-size: 0.92em; color: var(--accent-3); }
+pre { padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; font-size: 0.88rem; border: 1px solid var(--border); background: var(--surface) !important; }
+pre code { color: inherit; }
+blockquote { margin: 1.5rem 0; padding: 0 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); }
+hr { border: 0; border-top: 1px dashed var(--border); margin: 2.5rem 0; }
+ul { padding-left: 1.4rem; }
+.prose ul { list-style: none; padding-left: 1.4rem; }
+.prose ul > li::before { content: '-'; color: var(--accent); position: absolute; margin-left: -1.2rem; }
+
+.container { max-width: var(--max); margin: 0 auto; padding: 0 1.25rem; }
+.container.wide { max-width: var(--wide); }
+main { padding: 2.5rem 0 4rem; }
+.lede { color: var(--muted); margin: 0 0 2rem; }
+.muted { color: var(--muted); }
+.faint { color: var(--faint); font-size: 0.88rem; }
+.comment { color: var(--faint); }
+.comment::before { content: '// '; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0.4rem 0 0; list-style: none; }
+.tags li { font-size: 0.8rem; color: var(--accent-3); }
+.tags li::before { content: '#'; color: var(--faint); }
+
+.button {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.35rem 0.85rem; border: 1px solid var(--border); border-radius: 4px;
+  color: var(--text); font-size: 0.88rem; background: var(--surface);
+}
+.button::before { content: '['; color: var(--faint); }
+.button::after { content: ']'; color: var(--faint); }
+.button:hover { border-color: var(--accent); color: var(--accent); }
+.button.primary { border-color: var(--accent); color: var(--accent); }
+
+.post-list { list-style: none; padding: 0; margin: 0; }
+.post-list > li { padding: 1rem 0; border-bottom: 1px dashed var(--border); }
+.post-list > li:last-child { border-bottom: 0; }
+.post-list a.title { color: var(--text); font-weight: 700; border: 0; }
+.post-list a.title::before { content: '> '; color: var(--accent); }
+.post-list a.title:hover { color: var(--accent); }
+.post-list p { margin: 0.25rem 0 0; color: var(--muted); }
+
+.prose > :first-child { margin-top: 0; }
+.prose p, .prose ul, .prose ol { margin: 0 0 1.15rem; }
+.prose li { margin-bottom: 0.3rem; }
+
+.cursor { display: inline-block; width: 0.6em; height: 1.1em; background: var(--accent); vertical-align: text-bottom; animation: blink 1.1s steps(1) infinite; margin-left: 0.15em; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+
+/* Shiki dual themes: follow our toggle, not the OS */
+:root:not([data-theme='light']) .astro-code,
+:root:not([data-theme='light']) .astro-code span { color: var(--shiki-dark) !important; background-color: var(--surface) !important; }
+
+/* Print (and resume.pdf) always uses the light palette */
+@media print {
+  :root, :root[data-theme='light'] {
+    --bg: #fff; --surface: #fff; --text: #111; --muted: #444; --faint: #666;
+    --border: #ccc; --accent: #1a7f37; --accent-2: #0969da; --accent-3: #9a6700;
+    color-scheme: light;
+  }
+  .cursor { display: none; }
+}
+
+/* Keep long tokens from forcing horizontal scroll on phones */
+p, li { overflow-wrap: anywhere; }
+pre { max-width: 100%; }

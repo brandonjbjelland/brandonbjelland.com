@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import { resume, formatRange } from '../data/resume';
+---
+<Base title="Resume" description={`${resume.name}: ${resume.headline}`} markdown="/resume.md" wide>
+  <div class="resume">
+    <header class="top">
+      <div>
+        <h1>{resume.name}</h1>
+        <p class="headline">{resume.headline}</p>
+        <p class="contact">
+          <a href={`mailto:${resume.email}`}>{resume.email}</a>
+          {resume.links.map((l) => <a href={l.href}>{l.label}</a>)}
+        </p>
+      </div>
+      <div class="actions no-print">
+        <a class="button primary" href={`mailto:${resume.email}?subject=Resume%20request`}>Request full resume</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      {resume.summary.map((p) => <p>{p}</p>)}
+      <p class="biases-intro">I’m adaptive to the situation but generally biased toward…</p>
+      <ul class="biases">
+        {resume.principles.map((p) => <li><strong>{p.label.toLowerCase()}</strong> – {p.text}</li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Technical proficiencies</h2>
+      <dl class="skills">
+        {resume.skills.map((s) => (
+          <div>
+            <dt>{s.group}</dt>
+            <dd>{s.items.join(', ')}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+      {resume.experience.map((pos) => (
+        <div class="position">
+          <h3>{pos.url ? <a href={pos.url}>{pos.company}</a> : pos.company}</h3>
+          {pos.roles.map((role) => (
+            <div class="role">
+              <div class="role-head">
+                <strong>{role.title}</strong>
+                <span class="when">{formatRange(role)}{role.location && ` · ${role.location}`}</span>
+              </div>
+              {role.summary && <p>{role.summary}</p>}
+              {role.highlights && (
+                <>
+                  <p class="label">Key projects:</p>
+                  <ul>{role.highlights.map((h) => <li>{h}</li>)}</ul>
+                </>
+              )}
+              {role.partners && <p><span class="label">Partners:</span> {role.partners.join(', ')}</p>}
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
+
+    <section class="position">
+      <h2>Open source</h2>
+      <ul class="earlier">
+        {resume.openSource.map((o) => (
+          <li><span><a href={o.href}><strong>{o.name}</strong></a> · {o.text}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="position">
+      <h2>Earlier experience</h2>
+      <ul class="earlier">
+        {resume.earlier.map((e) => (
+          <li>
+            <span><strong>{e.company}</strong> · {e.title}</span>
+            <span class="when">{e.start === e.end ? e.start : `${e.start} – ${e.end}`}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="position">
+      <h2>Education</h2>
+      {resume.education.map((e) => <p><strong>{e.school}</strong> · {e.degree}</p>)}
+    </section>
+  </div>
+</Base>
+<style>
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap; border-bottom: 2px solid var(--text); padding-bottom: 1.25rem; }
+  .headline { font-size: 1.1rem; color: var(--accent-3); margin: 0 0 0.5rem; }
+  .contact { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin: 0; font-size: 0.9rem; color: var(--muted); }
+  .actions { display: flex; gap: 0.6rem; }
+  h2 { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 2rem 0 0.75rem; }
+  h2::before { content: '## '; color: var(--faint); }
+  h3 { margin: 1.5rem 0 0.4rem; color: var(--accent-3); }
+  h3 a { color: inherit; border: 0; }
+  .biases-intro { margin-bottom: 0.4rem; }
+  .biases { margin: 0; padding-left: 1.2rem; }
+  .biases li { margin-bottom: 0.3rem; }
+  .skills { margin: 0; }
+  .skills div { margin-bottom: 0.35rem; }
+  .skills dt { display: inline; font-weight: 700; }
+  .skills dt::after { content: ' – '; font-weight: 400; color: var(--faint); }
+  .skills dd { display: inline; margin: 0; color: var(--muted); }
+  .role { margin-bottom: 0.9rem; }
+  .role-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0 1rem; }
+  .when { color: var(--faint); font-size: 0.9rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .role p { margin: 0.35rem 0; }
+  .label { font-weight: 700; }
+  p.label { margin-bottom: 0.15rem; }
+  .role ul { margin: 0.2rem 0 0; padding-left: 1.2rem; }
+  .role li { margin-bottom: 0.3rem; }
+  .earlier { list-style: none; padding: 0; margin: 0; }
+  .earlier li { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0 1rem; margin-bottom: 0.2rem; }
+
+  @media print {
+    :global(.site-header), :global(footer), .no-print { display: none !important; }
+    :global(body) { font: 9.5pt/1.38 ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #111; }
+    :global(main) { padding: 0; }
+    :global(.container) { max-width: none; padding: 0; }
+    h1 { font-size: 20pt; margin-bottom: 0.2rem; }
+    h2 { margin: 0.8rem 0 0.35rem; color: #1a5f7a; font-size: 10pt; }
+    h2::before { content: none; }
+    h3 { margin: 0.5rem 0 0.1rem; font-size: 10.5pt; color: #111; }
+    .headline { color: #444; margin-bottom: 0.2rem; }
+    .top { padding-bottom: 0.5rem; }
+    .role { margin-bottom: 0.3rem; }
+    .role p { margin: 0.2rem 0; }
+    .role li, .biases li { margin-bottom: 0.1rem; }
+    .skills div { margin-bottom: 0.1rem; }
+    .position { break-inside: avoid; }
+    a { color: inherit; border: 0; }
+  }
+  @page { size: letter; margin: 0.5in 0.6in; }
+</style>

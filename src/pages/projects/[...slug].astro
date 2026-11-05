@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, summary, period, role, kind, tags, links } = project.data;
+const kindLabel = { internal: 'internal · not open source', 'open-source': 'open source', consulting: 'consulting' }[kind];
+---
+<Base title={title} description={summary} markdown={`/projects/${project.id}.md`}>
+  <p class="faint"><a href="/projects/">← Projects</a></p>
+  <h1>{title}</h1>
+  <p class="muted">{period}{role && ` · ${role}`} · <span class="kind">[{kindLabel}]</span></p>
+  <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>
+  {links.length > 0 && (
+    <p class="links">{links.map((l) => <a class="button" href={l.href}>{l.label}</a>)}</p>
+  )}
+  <hr />
+  <article class="prose"><Content /></article>
+</Base>
+<style>
+  .kind { color: var(--accent-3); }
+  .links { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.25rem; }
+</style>

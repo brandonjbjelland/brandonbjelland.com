@@ -1,0 +1,32 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Comments from '../../components/Comments.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate, tags, comments } = post.data;
+---
+<Base title={title} description={description} markdown={`/blog/${post.id}.md`}>
+  <article>
+    <header class="post-head">
+      <p class="faint"><a href="/blog/">← Blog</a></p>
+      <h1>{title}</h1>
+      <p class="faint">
+        <FormattedDate date={pubDate} />
+        {updatedDate && <> · updated <FormattedDate date={updatedDate} /></>}
+      </p>
+      {tags.length > 0 && <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>}
+    </header>
+    <div class="prose"><Content /></div>
+  </article>
+  {comments && <Comments />}
+</Base>
+<style>
+  .post-head { margin-bottom: 2.25rem; }
+</style>

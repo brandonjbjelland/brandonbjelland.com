@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const groups = [
+  { kind: 'internal', heading: 'At work', note: 'Internal platforms and tools. Not open source, so these pages describe the problem, approach, and outcome.' },
+  { kind: 'open-source', heading: 'Open source', note: 'Public code you can go read.' },
+  { kind: 'consulting', heading: 'Consulting', note: '' },
+] as const;
+---
+<Base title="Projects" description="Things I’ve built and led, at work and in the open.">
+  <h1 class="prompt">ls projects/</h1>
+  <p class="lede">Things I’ve built, led, or helped ship.</p>
+  {groups.map((g) => {
+    const items = projects.filter((p) => p.data.kind === g.kind);
+    return items.length > 0 && (
+      <section>
+        <h2><span class="ps">$</span> ls projects/ --type={g.kind}</h2>
+        {g.note && <p class="comment">{g.note}</p>}
+        <ul class="post-list">
+          {items.map((p) => (
+            <li>
+              <a class="title" href={`/projects/${p.id}/`}>{p.data.title}</a>
+              <div class="faint">{p.data.period}{p.data.role && ` · ${p.data.role}`}</div>
+              <p>{p.data.summary}</p>
+              <ul class="tags">{p.data.tags.map((t) => <li>{t}</li>)}</ul>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  })}
+</Base>
+<style>
+  .ps { color: var(--accent); }
+  .comment { margin: -0.25rem 0 0.5rem; font-size: 0.88rem; }
+</style>

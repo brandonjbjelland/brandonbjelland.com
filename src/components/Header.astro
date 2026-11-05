@@ -1,0 +1,43 @@
+---
+import { NAV } from '../consts';
+const path = Astro.url.pathname;
+const cwd = path === '/' ? '~' : `~${path.replace(/\/$/, '')}`;
+---
+<header class="site-header">
+  <div class="container wide row">
+    <a class="brand" href="/">
+      <span class="user">brandon@bjelland</span><span class="sep">:</span><span class="cwd">{cwd}</span><span class="sep">$</span>
+    </a>
+    <nav aria-label="Main">
+      {NAV.map((item) => (
+        <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label.toLowerCase()}/</a>
+      ))}
+      <button id="theme-toggle" type="button" aria-label="Toggle light mode" title="Toggle light/dark">◐</button>
+    </nav>
+  </div>
+</header>
+<script>
+  const btn = document.getElementById('theme-toggle');
+  btn?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const light = root.dataset.theme !== 'light';
+    if (light) root.dataset.theme = 'light';
+    else delete root.dataset.theme;
+    try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch {}
+    const frame = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    frame?.contentWindow?.postMessage({ giscus: { setConfig: { theme: light ? 'light' : 'transparent_dark' } } }, 'https://giscus.app');
+  });
+</script>
+<style>
+  .site-header { border-bottom: 1px solid var(--border); }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; flex-wrap: wrap; padding-top: 0.9rem; padding-bottom: 0.9rem; }
+  .brand { border: 0; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .user { color: var(--accent); }
+  .cwd { color: var(--accent-2); }
+  .sep { color: var(--text); }
+  nav { display: flex; gap: 1.1rem; flex-wrap: wrap; align-items: center; }
+  nav a { color: var(--muted); border: 0; font-size: 0.92rem; }
+  nav a:hover, nav a[aria-current='page'] { color: var(--accent); }
+  button { background: none; border: 1px solid var(--border); color: var(--muted); font: inherit; border-radius: 4px; padding: 0 0.45rem; cursor: pointer; }
+  button:hover { color: var(--accent); border-color: var(--accent); }
+</style>

@@ -1,0 +1,44 @@
+---
+/**
+ * giscus: comments + reactions ("likes") backed by GitHub Discussions.
+ * Configure in src/consts.ts. Renders nothing until repoId/categoryId are set.
+ */
+import { GISCUS } from '../consts';
+const enabled = Boolean(GISCUS.repoId && GISCUS.categoryId);
+---
+{enabled ? (
+  <section class="comments" aria-label="Comments" data-giscus={JSON.stringify(GISCUS)}>
+    <h2 class="faint">## comments</h2>
+  </section>
+) : import.meta.env.DEV && (
+  <p class="faint">Comments are disabled until GISCUS ids are set in src/consts.ts.</p>
+)}
+<script>
+  const host = document.querySelector<HTMLElement>('[data-giscus]');
+  if (host) {
+    const cfg = JSON.parse(host.dataset.giscus!);
+    const light = document.documentElement.dataset.theme === 'light';
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    Object.entries({
+      repo: cfg.repo,
+      'repo-id': cfg.repoId,
+      category: cfg.category,
+      'category-id': cfg.categoryId,
+      mapping: 'pathname',
+      strict: '1',
+      'reactions-enabled': '1',
+      'emit-metadata': '0',
+      'input-position': 'top',
+      theme: light ? 'light' : 'transparent_dark',
+      lang: 'en',
+      loading: 'lazy',
+    }).forEach(([k, v]) => s.setAttribute(`data-${k}`, v));
+    host.appendChild(s);
+  }
+</script>
+<style>
+  .comments { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px dashed var(--border); }
+</style>

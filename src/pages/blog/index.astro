@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+<Base title="Blog" description="Writing on platform engineering, AI infrastructure, and leadership.">
+  <h1 class="prompt">ls blog/</h1>
+  <p class="lede">Notes on platform engineering, AI infrastructure, and leading teams. <a href="/rss.xml">RSS</a></p>
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <a class="title" href={`/blog/${post.id}/`}>{post.data.title}{post.data.draft && ' (draft)'}</a>
+        <div class="faint"><FormattedDate date={post.data.pubDate} /></div>
+        <p>{post.data.description}</p>
+      </li>
+    ))}
+  </ul>
+</Base>
