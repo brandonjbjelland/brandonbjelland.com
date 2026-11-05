@@ -4,7 +4,7 @@ summary: Helm-Extended Resource Bundles for Services. A GitOps deployment framew
 period: 2025–2026
 kind: internal
 role: Senior Principal Architect, Palo Alto Networks
-tags: [gitops, argocd, cue, helm, go, kubernetes]
+tags: [gitops, argocd, argo-workflows, kargo, cue, helm, go, kubernetes]
 featured: true
 order: 3
 ---
@@ -30,6 +30,10 @@ as a **bundle**, and the platform works out where and how it runs. Applications 
 infrastructure deploy uniformly through the same system, using primitives modeled on the Kubernetes
 resource model so they feel familiar and compose predictably. Correctness and consistency are
 enforced in CI, before anything reaches a cluster.
+
+Over time I evolved HERBS beyond the cell, with input from the teams using it. Bundles can now target
+**external services**: shared services my team hosts centrally, outside a customer’s cell. Argo
+Workflows was the first, and the same external-service target contract is being adapted to Kargo.
 
 ## Winning adoption
 
