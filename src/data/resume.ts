@@ -109,7 +109,7 @@ export const resume: Resume = {
           start: '2023-08',
           end: '2024-03',
           summary:
-            'Delivery lead for large GCP customers, then directed field engineering: hiring, staffing engagements, mentoring, and serving as the top technical escalation point. Led foundational infrastructure, networking, and data platform delivery for an EV manufacturer.',
+            'Delivery lead for large GCP customers, then directed field engineering: hiring, staffing engagements, mentoring, and serving as the top technical escalation point. Led foundational infrastructure, networking, and data platform delivery for an EV manufacturer, and led an AI-enabled UX/UI engagement for a major airline.',
         },
       ],
     },

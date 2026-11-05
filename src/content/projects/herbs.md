@@ -1,10 +1,10 @@
 ---
 title: HERBS
-summary: Helm-Extended Resource Bundles for Services. A GitOps deployment framework (ArgoCD, CUE, Helm) giving 12 product teams one way to ship to any cell, with zero production outages on platform-owned systems.
+summary: Helm-Extended Resource Bundles for Services. A GitOps deployment framework (ArgoCD, CUE, Helm, Go) giving 12 product teams one way to ship to any cell, with zero production outages on platform-owned systems.
 period: 2025–2026
 kind: internal
 role: Senior Principal Architect, Palo Alto Networks
-tags: [gitops, argocd, cue, helm, kubernetes]
+tags: [gitops, argocd, cue, helm, go, kubernetes]
 featured: true
 order: 3
 ---
@@ -33,6 +33,7 @@ applications and their infrastructure the same way: both deploy uniformly throug
 - **Rendered values files, checked in.** CI processes render the final Helm values files (using CUE
   templating) and commit them, so what’s in git is exactly what runs. Correctness and consistency are
   enforced in CI, before ArgoCD ever sees a change.
+- **Built in Go.** HERBS itself is written in Go, with CUE for templating and Helm for packaging.
 - **Blast radius up front.** Pre-deployment impact analysis shows what every change will touch
   before it ships.
 

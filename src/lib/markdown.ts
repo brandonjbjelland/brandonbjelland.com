@@ -39,12 +39,21 @@ export async function publishedPosts() {
   );
 }
 
+type Project = CollectionEntry<'projects'>;
+const years = (period: string) => (period.match(/\d{4}/g) ?? ['0']).map(Number);
+
+/** Most recent first: by end year, then start year, then `order` as a tiebreak. */
+export function byRecency(a: Project, b: Project): number {
+  const [ya, yb] = [years(a.data.period), years(b.data.period)];
+  return (yb.at(-1)! - ya.at(-1)!) || (yb[0] - ya[0]) || (a.data.order - b.data.order);
+}
+
 export async function sortedProjects() {
-  return (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+  return (await getCollection('projects')).sort(byRecency);
 }
 
 export async function homeMarkdown(): Promise<string> {
-  const featured = (await sortedProjects()).filter((p) => p.data.featured);
+  const featured = (await getCollection('projects')).filter((p) => p.data.featured).sort((a, b) => a.data.order - b.data.order);
   return [
     `# ${SITE.author}`,
     `> ${resume.headline}. ${SITE.location}.`,

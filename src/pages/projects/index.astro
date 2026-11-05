@@ -1,9 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { lastModified } from '../../lib/lastModified';
+import { sortedProjects } from '../../lib/markdown';
 
-const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const projects = await sortedProjects();
 const groups = [
   { kind: 'internal', heading: 'At work', note: 'Internal platforms and tools. Not open source, so these pages describe the problem, approach, and outcome.' },
   { kind: 'open-source', heading: 'Open source', note: 'Public code you can go read.' },
