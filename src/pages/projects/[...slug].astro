@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { lastModified } from '../../lib/lastModified';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -11,7 +12,7 @@ const { Content } = await render(project);
 const { title, summary, period, role, kind, tags, links } = project.data;
 const kindLabel = { internal: 'internal · not open source', 'open-source': 'open source', consulting: 'consulting' }[kind];
 ---
-<Base title={title} description={summary} markdown={`/projects/${project.id}.md`}>
+<Base title={title} description={summary} markdown={`/projects/${project.id}.md`} updated={lastModified(project.filePath)}>
   <p class="faint"><a href="/projects/">← Projects</a></p>
   <h1>{title}</h1>
   <p class="muted">{period}{role && ` · ${role}`} · <span class="kind">[{kindLabel}]</span></p>

@@ -6,6 +6,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { SITE } from '../consts';
 import { resume, formatRange } from '../data/resume';
 import aboutRaw from '../pages/about.md?raw';
+import { lastModified, isoDate } from './lastModified';
 
 export const abs = (path: string) => new URL(path, `https://${new URL(import.meta.env.SITE).host}`).href;
 
@@ -40,7 +41,10 @@ export async function sortedProjects() {
 }
 
 export function aboutMarkdown(): string {
-  return absolutize(clean(aboutRaw)).replace(/^# cat about\.md/m, '# About Brandon Bjelland');
+  return absolutize(clean(aboutRaw)).replace(
+    /^# cat about\.md/m,
+    `# About Brandon Bjelland\n\nLast updated ${isoDate(lastModified('src/pages/about.md'))}`,
+  );
 }
 
 export function postMarkdown(post: CollectionEntry<'blog'>): string {
@@ -49,7 +53,7 @@ export function postMarkdown(post: CollectionEntry<'blog'>): string {
     `# ${title}`,
     `> ${description}`,
     `Published ${pubDate.toISOString().slice(0, 10)} by ${SITE.author}${tags.length ? ` · tags: ${tags.join(', ')}` : ''}`,
-    `Source: ${abs(`/blog/${post.id}/`)}`,
+    `Source: ${abs(`/blog/${post.id}/`)} · last updated ${isoDate(lastModified(post.filePath))}`,
     absolutize(clean(post.body ?? '')),
   ].join('\n\n');
 }
@@ -64,7 +68,7 @@ export function projectMarkdown(project: CollectionEntry<'projects'>): string {
     `> ${summary}`,
     meta,
     linkLines,
-    `Source: ${abs(`/projects/${project.id}/`)}`,
+    `Source: ${abs(`/projects/${project.id}/`)} · last updated ${isoDate(lastModified(project.filePath))}`,
     absolutize(clean(project.body ?? '')),
   ]
     .filter(Boolean)
@@ -74,7 +78,7 @@ export function projectMarkdown(project: CollectionEntry<'projects'>): string {
 export function resumeMarkdown(): string {
   const r = resume;
   const out: string[] = [];
-  out.push(`# ${r.name}`, `> ${r.headline}`);
+  out.push(`# ${r.name}`, `> ${r.headline}`, `Last updated ${isoDate(lastModified('src/data/resume.ts'))}`);
   out.push([r.location, r.email, ...r.links.map((l) => l.href)].join(' · '));
   out.push('## Summary', ...r.summary);
   out.push(

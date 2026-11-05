@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { lastModified } from '../../lib/lastModified';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const groups = [
@@ -9,7 +10,7 @@ const groups = [
   { kind: 'consulting', heading: 'Consulting', note: '' },
 ] as const;
 ---
-<Base title="Projects" description="Things I’ve built and led, at work and in the open.">
+<Base title="Projects" description="Things I’ve built and led, at work and in the open." updated={lastModified('src/content/projects', 'src/pages/projects')}>
   <h1 class="prompt">ls projects/</h1>
   <p class="lede">Things I’ve built, led, or helped ship.</p>
   {groups.map((g) => {

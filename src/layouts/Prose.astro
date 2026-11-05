@@ -1,8 +1,9 @@
 ---
 import Base from './Base.astro';
+import { lastModified } from '../lib/lastModified';
 const { frontmatter } = Astro.props;
 ---
-<Base title={frontmatter.title} description={frontmatter.description} markdown={frontmatter.markdown}>
+<Base title={frontmatter.title} description={frontmatter.description} markdown={frontmatter.markdown} updated={lastModified(Astro.props.file)}>
   <article class="prose"><slot /></article>
 </Base>
 <style>

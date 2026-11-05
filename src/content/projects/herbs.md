@@ -43,6 +43,6 @@ their own architecture decision records for HERBS and author the majority of its
 ## Outcome
 
 - 12 teams deploy through HERBS today.
-- ~500 version rollouts since launch.
+- 700+ version rollouts since launch.
 - Zero production outages on platform-owned systems since launch.
 - A reusable core that replaces the bespoke deployment glue each team would otherwise maintain.
